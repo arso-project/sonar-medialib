@@ -1,0 +1,10 @@
+[data-c-record-editor] label {
+  display: block;
+}
+[data-c-record-editor] {
+  display: grid;
+  grid-template-columns: min-content 1fr;
+}
+[data-c-record-editor] fieldset {
+  display: contents;
+}
