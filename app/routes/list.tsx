@@ -4,15 +4,31 @@ import {
 } from "remix";
 import {Layout} from "~/comps/layout";
 import { openCollection } from "../sonar.server";
+import { getSessionFromRequest } from '~/sessions'
+import {MediaAsset} from "~/comps/media-asset";
 
-export const loader: LoaderFunction = async () => {
-  const collection = await openCollection()
-  const info = collection.info
-  const records = await collection.query('records', {
-    type: 'sonar-medialib/MediaAsset'
-  })
-  console.log({ info, records, schema: collection.schema })
-  return json({ records, info })
+export const loader: LoaderFunction = async ({ request }): Promise<Response> => {
+  // const session = await getSessionFromRequest(request)
+  try {
+    const collection = await openCollection()
+    const info = collection.info
+    const records = await collection.query('records', {
+      type: 'sonar-medialib/MediaAsset'
+    })
+    // console.log({ info, records, schema: collection.schema })
+    return json({ records, info }, {
+    })
+  } catch (err) {
+    return json({
+      error: (err as Error).message
+    })
+    // {
+    //   statusCode: 500,
+    //   headers: {
+    //       "Set-Cookie": await commitSession(session),
+    //     },
+    // })
+  }
 }
 
 export default function Index() {
@@ -27,39 +43,11 @@ export default function Index() {
       <div>
         {records.map((record: any, i: number) => (
           <div key={i}>
-            <Link to={'/media/' + record.id}>
-              <h2>{record.value.title || record.id}</h2>
-            </Link>
-            <video controls src={'/file/' + record.value.file} />
-              <p>{record.value.description}</p>
-            <p>
-            {record.value.duration && (
-              <span>Duration: {formatDuration(record.value.duration)}</span>
-            )}
-              <br />
-              <Link to={'/metadata/' + record.id}>
-                full metadata
-              </Link>
-              <br />
-              <DateFormatter date={record.timestamp} />
-            </p>
+            <MediaAsset record={record} />
             <hr />
           </div>
         ))}
       </div>
     </Layout>
   );
-}
-
-function formatDuration(seconds: number): string {
-  const date = new Date(0)
-  date.setSeconds(seconds)
-  const timeString = date.toISOString().substr(11, 8)
-  return timeString
-}
-
-function DateFormatter ({ date }: any) {
-  if (!date) return null
-  const formatted = new Intl.DateTimeFormat('de-DE', { dateStyle: 'full', timeStyle: 'long' }).format(new Date(date))
-  return <em>{formatted}</em>
 }
