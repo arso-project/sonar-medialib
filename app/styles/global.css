@@ -20,6 +20,7 @@
   /* fonts */
   --font-fallback: -apple-system, "Segoe UI", sans-serif;
   --font-body: "iA Quattro", var(--font-fallback);
+  --font-input: "iA Quattro", var(--font-fallback);
   /* --font-display: baloo, var(--font-fallback); */
   --font-display: authentic, var(--font-fallback);
 
@@ -40,6 +41,10 @@
 
   --color-headline: var(--color-main1);
   --color-links: var(--color-main1);
+
+  --color-outline: hsl(var(--hue1), 60%, 70%);
+
+  --color-main1-fade1: hsl(var(--hue1), 60%, 30%);
 }
 
 html {
@@ -57,7 +62,7 @@ html {
 }
 
 :focus {
-  outline: var(--color-main3) solid 2px;
+  outline: var(--color-outline) solid 2px;
   outline-offset: 2px;
 }
 
@@ -128,6 +133,37 @@ h6 {
   color: var(--color-main1);
 }
 
+/* forms */
+
+form {
+  margin: 1rem 0;
+}
+
+fieldset {
+  border: none;
+}
+
+input, button {
+  font-family: var(--font-input);
+  font-size: 1rem;
+  color: var(--color-main1);
+  background: var(--color-bg);
+  padding: 2px;
+  padding: .5rem;
+}
+
+input {
+  border: 2px dotted var(--color-main1);
+}
+
+button {
+  border: none;
+  border: 2px solid var(--color-main1);
+  background: var(--color-main1);
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+}
 /* global components */
 
 [data-c-layout] {
@@ -140,7 +176,7 @@ h6 {
   padding: 1.5rem;
   margin: .5rem 1.5rem 1rem 1.5rem;
   background: var(--color-bg);
-  border: 2px solid var(--color-main1);
+  /* border: 2px solid var(--color-main1); */
   box-shadow: 1px 1px 1rem hsla(var(--hue2), 90%, 50%, 0.7),
     1px 1px 15px hsla(var(--hue1), 90%, 60%, 0.3);
 }
@@ -156,6 +192,7 @@ h6 {
 }
 [data-c-navigation] li {
   flex: 0;
+  flex-basis: max-content;
   list-style-type: none;
 }
 [data-c-navigation] li:not(:last-child) {
@@ -215,4 +252,37 @@ h6 {
   height: 100%;
   display: block;
   background: red;
+}
+
+[data-c-feed] {
+  border: 1px solid var(--color-main1-fade1);
+  padding: .5rem;
+  margin-bottom: .5rem;
+}
+[data-c-feed] > h3 {
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+[data-c-list-page] {
+  display: grid;
+}
+
+[data-c-list-page] > div {
+  padding: 1rem;
+  background-color: var(--color-bg);
+  /* border: 1px solid var(--color-main1); */
+}
+
+@media (min-width: 760px) {
+  [data-c-list-page] {
+    --border-color: var(--color-main1-fade1);
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 1px;
+    background: var(--border-color);
+    border: 1px solid var(--border-color);
+  }
+  /* [data-c-list-page] > div { */
+  /*   padding: 1rem; */
+  /* } */
 }

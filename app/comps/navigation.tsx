@@ -13,6 +13,9 @@ export function Navigation() {
         <li>
           <NavLink to="/import">Import</NavLink>
         </li>
+        <li>
+          <NavLink to="/feeds">Manage feeds</NavLink>
+        </li>
       </ul>
     </nav>
   )

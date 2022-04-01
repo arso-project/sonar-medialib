@@ -40,11 +40,10 @@ export default function Index() {
       <div data-c-key>
         Collection key: <code>{info.key}</code>
       </div>
-      <div>
+      <div data-c-list-page>
         {records.map((record: any, i: number) => (
           <div key={i}>
             <MediaAsset record={record} />
-            <hr />
           </div>
         ))}
       </div>

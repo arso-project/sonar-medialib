@@ -22,11 +22,10 @@ type LoaderData = {
 }
 
 type Progress= {
+  state?: 'running' | 'finished'
   progress?: number,
   created?: any;
-  finished?: boolean;
-  running?: boolean;
-  error?: string;
+  error?: string | null;
 }
 
 export const loader: LoaderFunction = async({ request }) => {
@@ -60,13 +59,11 @@ export const action: ActionFunction = async ({ request }): Promise<Response> => 
     }
 
     const onProgress: ProgressCallback = async ({ progress }) => {
-      const lastProgress = getProgress(session)?.progress || 0
-      if (progress === 1 || progress - lastProgress > 0.01) {
-        try {
-          await commitSession(setProgress(session, { progress }))
-        } catch (err) {
-        }
-      }
+      const lastProgress = getProgress(session)
+      if (lastProgress.state === 'finished') return
+      try {
+        await commitSession(setProgress(session, { progress }))
+      } catch (err) {}
     }
 
     (async () => {
@@ -75,15 +72,14 @@ export const action: ActionFunction = async ({ request }): Promise<Response> => 
         await commitSession(setProgress(session, {
           created: mediaAsset,
           progress: 1,
-          running: false,
-          finished: true
+          state: 'finished'
         }))
       } catch (err) {
-        await commitSession(setProgress(session, { running: false, error: (err as Error).message }))
+        await commitSession(setProgress(session, { state: 'finished', error: (err as Error).message }))
       }
     })()
 
-    setProgress(session, { running: true, progress: 0, finished: false })
+    setProgress(session, { progress: 0, error: null, state: 'running' })
     return await withSession(session, json({ running: true }))
   } catch (err) {
     throw err
@@ -98,23 +94,23 @@ export default function ImportPage() {
   const progressData = { ...(loaderData?.progress || {}), ...(fetcher.data?.progress || {}) }
 
   useEffect(() => {
-    if (!actionData?.running) return
-    if (progressData.finished) return
+    if (progressData.state !== 'running' && !actionData?.running) return
     let interval = setInterval(() => {
       if (fetcher.state !== 'idle') return
-      if (!progressData.running) return
+      if (progressData.state === 'finished') return
       fetcher.load('/import')
     }, 500)
     return () => clearInterval(interval)
-  }, [actionData?.running, fetcher, progressData.running, progressData.finished])
+  }, [actionData?.running, fetcher, progressData.state])
 
+  console.log({ progressData })
   return (
     <Layout>
       <h1>Import media</h1>
-      {actionData?.running && (progressData.running !== undefined && progressData.running) (
+      {actionData?.running && (
         <div data-c-message>Your import is being processed!</div>
       )}
-      {progressData.running && (
+      {progressData.state === 'running' && (
         <ProgressBar progress={progressData?.progress} />
       )}
       {progressData.created && (
@@ -130,17 +126,13 @@ export default function ImportPage() {
       )}
       
       <form method="post">
-        <fieldset disabled={progressData.running}>
-          <div>
-            <label>
-              Url: <input type="text" name="url" />
-            </label>
-          </div>
-          <div>
-            <button type="submit" className="button">
-              Submit
-            </button>
-          </div>
+        <fieldset disabled={progressData.state === 'running'}>
+          <label>
+            <input placeholder='URL to import' type="text" name="url" />
+          </label>
+          <button type="submit" className="button">
+            Submit
+          </button>
         </fieldset>
       </form>
     </Layout>
@@ -162,8 +154,6 @@ export function CatchBoundary() {
           <ImportPage />
         </div>
       );
-    case 404:
-      return <div>Invoice not found!</div>;
   }
 
   return (
