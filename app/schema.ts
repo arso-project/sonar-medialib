@@ -1,4 +1,11 @@
-export const schema = {
+import type { TypeSpecInput } from '@arsonar/client'
+
+type Spec = {
+  defaultNamespace: string,
+  types: Record<string, TypeSpecInput>
+}
+
+export const schema: Spec = {
   defaultNamespace: 'sonar-medialib',
   types: {
     AboutMe: {

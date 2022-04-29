@@ -14,14 +14,15 @@
     "electron": "cd electron && yarn start"
   },
   "dependencies": {
-    "@arsonar/client": "0.6.0-alpha.3",
-    "@arsonar/server": "0.6.0-alpha.3",
+    "@arsonar/client": "0.6.0-alpha.4",
+    "@arsonar/server": "0.6.0-alpha.4",
     "@remix-run/node": "^1.4.3",
     "@remix-run/react": "^1.4.3",
     "@remix-run/serve": "^1.4.3",
     "dotenv": "^16.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-router-dom": "^6.3.0",
     "readable-bytes": "^2.0.2",
     "ytdl-core": "^4.11.0"
   },

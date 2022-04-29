@@ -9,7 +9,7 @@ export let loader: LoaderFunction = async ({ request, params }) => {
   const id = params.id;
   if (!id) throw json({}, { status: 404 })
   const records = await collection.get({ id, type: 'sonar-medialib/MediaAsset' })
-  if (!records.length) throw json({ error: 'not found' }, { statusCode: 404 })
+  if (!records.length) throw json({ error: 'not found' }, { status: 404 })
   return json({ record: records[0] })
 };
 

@@ -13,8 +13,10 @@ export const loader: LoaderFunction = async (): Promise<Response> => {
 export const action: ActionFunction = async ({ request }): Promise<Response> => {
     const collection = await openCollection()
     const form = await request.formData();
-    const key = form.get("key");
-    await collection.putFeed(key)
+    const key = form.get("key") as string;
+    if (key) {
+        await collection.putFeed(key)
+    }
     return json({})
 }
 
