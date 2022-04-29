@@ -1,4 +1,4 @@
-import { Response, ActionFunction, LoaderFunction, useActionData, useLoaderData, useCatch, useFetcher, Session } from "remix";
+import { ActionFunction, LoaderFunction, useActionData, useLoaderData, useCatch, useFetcher, Session } from "remix";
 import {
   json
 } from "remix";
@@ -51,7 +51,7 @@ export const action: ActionFunction = async ({ request }): Promise<Response> => 
   const session = await getSessionFromRequest(request)
   try {
     const form = await request.formData();
-    const url = form.get("url");
+    const url = form.get("url") as string;
     const collection = await openCollection()
 
     if (!url) {

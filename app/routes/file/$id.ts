@@ -8,10 +8,6 @@ export let loader: LoaderFunction = async ({ request, params }) => {
   const id = params.id;
   const requestHeaders = Object.fromEntries(request.headers.entries())
   const res = await collection.files.readFile(id, { responseType: 'raw', headers: requestHeaders })
-  console.log({
-    origReqHeaders: requestHeaders,
-    resHeaders: res.headers._headers
-  })
   return new Response(res.body, {
     status: res.status,
     // TODO: Change to public entries() API once sonar client moves to WebApi fetch

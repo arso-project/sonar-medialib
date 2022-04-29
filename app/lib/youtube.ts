@@ -1,7 +1,11 @@
 import ytdl from 'ytdl-core'
-/// <reference types="@arsonar/client" />
+import type { Collection } from '@arsonar/client'
 
-export async function importVideoFromUrlMock (collection, url, { onProgress }) {
+export type YoutubeImportOpts = {
+  onProgress: (progress: { progress: number, downloaded?: number, total?: number }) => void | Promise<void>
+}
+
+export async function importVideoFromUrlMock (_collection: Collection, _url: String, { onProgress }: YoutubeImportOpts) {
   let progress = 0
   while (progress < 1) {
     await new Promise(resolve => setTimeout(resolve, 20))
@@ -11,7 +15,7 @@ export async function importVideoFromUrlMock (collection, url, { onProgress }) {
   return { mediaAsset: { id: 'foo' } }
 }
 
-export async function importVideoFromUrl (collection, url, { onProgress }) {
+export async function importVideoFromUrl (collection: Collection, url: string, { onProgress }: YoutubeImportOpts) {
   const info = await ytdl.getInfo(url)
   const details = info.videoDetails
   try {
