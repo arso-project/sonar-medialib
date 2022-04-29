@@ -1,6 +1,4 @@
-import type {
-  LoaderFunction
-} from "remix";
+import type { LoaderFunction } from "@remix-run/node";
 import { openCollection } from "../../sonar.server";
 
 export let loader: LoaderFunction = async ({ request, params }) => {

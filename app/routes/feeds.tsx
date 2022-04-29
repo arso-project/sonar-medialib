@@ -1,4 +1,5 @@
-import {ActionFunction, Form, json, LoaderFunction, useLoaderData} from "remix";
+import { ActionFunction, json, LoaderFunction } from "@remix-run/node";
+import { Form, useLoaderData } from "@remix-run/react";
 import {Layout} from "~/comps/layout";
 import {openCollection} from "~/sonar.server";
 import prettyBytes from 'readable-bytes'

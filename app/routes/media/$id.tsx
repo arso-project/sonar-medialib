@@ -1,7 +1,5 @@
-import {
-  LoaderFunction, json,
-  useLoaderData
-} from "remix";
+import { json, LoaderFunction } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
 import {Layout} from "~/comps/layout";
 import {MediaAsset} from "~/comps/media-asset";
 import { openCollection } from "../../sonar.server";

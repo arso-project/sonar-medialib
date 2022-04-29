@@ -1,10 +1,6 @@
 // app/sessions.js
 // import type {Request} from "request";
-import {
-  createCookie,
-  createMemorySessionStorage,
-  Session,
-} from "remix";
+import { createCookie, createMemorySessionStorage, Session } from "@remix-run/node";
 
 // In this example the Cookie is created separately.
 const sessionCookie = createCookie("sonar-medialib-session", {

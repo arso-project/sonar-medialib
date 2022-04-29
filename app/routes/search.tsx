@@ -1,7 +1,5 @@
-import { Form, Link, LoaderFunction, useLoaderData } from "remix";
-import {
-  json
-} from "remix";
+import { json, LoaderFunction } from "@remix-run/node";
+import { Form, Link, useLoaderData } from "@remix-run/react";
 import {Layout} from "~/comps/layout";
 import { openCollection } from "../sonar.server";
 
