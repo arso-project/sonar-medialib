@@ -1,0 +1,19 @@
+{
+  "private": true,
+  "name": "remix-medialib-electron",
+  "description": "",
+  "license": "",
+  "main": "main.js",
+  "version": "0.1.0",
+  "scripts": {
+    "electron": "electron main.js",
+    "start": "electron main.js"
+  },
+  "dependencies": {
+    "electron": "^17.1.1"
+  },
+  "engines": {
+    "node": ">=14"
+  },
+  "sideEffects": false
+}

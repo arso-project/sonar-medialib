@@ -7,32 +7,25 @@ import { getSessionFromRequest } from '~/sessions'
 import { MediaAsset } from '~/comps/media-asset'
 
 export const loader: LoaderFunction = async ({ request }): Promise<Response> => {
-  // const session = await getSessionFromRequest(request)
   try {
     const collection = await openCollection()
     const info = collection.info
     const records = await collection.query('records', {
       type: 'sonar-medialib/MediaAsset'
     })
-    // console.log({ info, records, schema: collection.schema })
     return json({ records, info }, {
     })
   } catch (err) {
     return json({
       error: (err as Error).message
     })
-    // {
-    //   statusCode: 500,
-    //   headers: {
-    //       "Set-Cookie": await commitSession(session),
-    //     },
-    // })
   }
 }
 
 export default function Index () {
   const data = useLoaderData<any>()
-  const { info, records } = data as { info: any, records: Array<any> }
+  const { info, records, error } = data as { info: any, records: Array<any>, error?: string }
+  if (error) throw new Error(error)
   records.sort((a, b) => a.timestamp > b.timestamp ? -1 : 1)
   return (
     <Layout>
