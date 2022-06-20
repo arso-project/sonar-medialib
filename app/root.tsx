@@ -1,4 +1,5 @@
 import type { MetaFunction, LinksFunction, LoaderFunction } from '@remix-run/node'
+import React from 'react'
 import { json } from '@remix-run/node'
 import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, useCatch } from '@remix-run/react'
 import { Layout } from './comps/layout.js'
@@ -13,7 +14,7 @@ export const meta: MetaFunction = () => {
   return {
     title: 'Sonar Medialib',
     viewport: 'width=device-width,initial-scale=1',
-    description,
+    description
   }
 }
 

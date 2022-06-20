@@ -19,8 +19,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 export default function Index () {
   const data = useLoaderData<any>()
-  const { info, records } = data as { info: any, records: Array<any> }
-  console.log(records)
+  const { records } = data as { info: any, records: Array<any> }
   return (
     <Layout>
       <Form>

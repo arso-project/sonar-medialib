@@ -1,5 +1,4 @@
-import { LoaderFunction } from '@remix-run/node'
-import { Link, useLoaderData } from '@remix-run/react'
+import { Link } from '@remix-run/react'
 
 export function MediaAsset (props: any) {
   const { record } = props

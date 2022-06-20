@@ -1,12 +1,11 @@
 import type { LoaderFunction } from '@remix-run/node'
 import { json } from '@remix-run/node'
-import { Link, useLoaderData } from '@remix-run/react'
+import { useLoaderData } from '@remix-run/react'
 import { Layout } from '~/comps/layout'
 import { openCollection } from '~/lib/sonar.server'
-import { getSessionFromRequest } from '~/sessions'
 import { MediaAsset } from '~/comps/media-asset'
 
-export const loader: LoaderFunction = async ({ request }): Promise<Response> => {
+export const loader: LoaderFunction = async (): Promise<Response> => {
   try {
     const collection = await openCollection()
     const info = collection.info

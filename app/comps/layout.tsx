@@ -1,4 +1,5 @@
 import { Navigation } from './navigation'
+import React from 'react'
 
 export function Layout ({
   children

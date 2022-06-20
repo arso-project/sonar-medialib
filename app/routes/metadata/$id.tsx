@@ -1,10 +1,10 @@
 import type { LoaderFunction } from '@remix-run/node'
 import { json } from '@remix-run/node'
-import { Form, Link, useLoaderData } from '@remix-run/react'
+import { useLoaderData } from '@remix-run/react'
 import { Layout } from '~/comps/layout'
 import { openCollection } from '~/lib/sonar.server'
 
-export const loader: LoaderFunction = async ({ request, params }) => {
+export const loader: LoaderFunction = async ({ params }) => {
   const collection = await openCollection()
   const records = await collection.get({
     type: 'sonar-medialib/MediaAsset',
@@ -26,7 +26,6 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 export default function Page () {
   const data = useLoaderData<any>()
   const records = [data.mediaRecord, data.importedMetadata].filter(x => x)
-  // const { records } = data as { info: any, records: Array<any> }
   return (
     <Layout>
       <div>

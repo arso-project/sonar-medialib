@@ -16,15 +16,15 @@ type ActionData = {
   error?: string
 }
 
-type LoaderData = {
-  progress: Progress
-}
-
 type Progress= {
   state?: 'running' | 'finished'
   progress?: number,
   created?: any;
   error?: string | null;
+}
+
+type LoaderData = {
+  progress: Progress
 }
 
 export const loader: LoaderFunction = async ({ request }) => {
@@ -47,41 +47,37 @@ function getProgress (session: Session): Progress {
 
 export const action: ActionFunction = async ({ request }): Promise<Response> => {
   const session = await getSessionFromRequest(request)
-  try {
-    const form = await request.formData()
-    const url = form.get('url') as string
-    const collection = await openCollection()
+  const form = await request.formData()
+  const url = form.get('url') as string
+  const collection = await openCollection()
 
-    if (!url) {
-      throw json({ error: 'URL is required', field: 'url' }, { status: 400 })
-    }
-
-    const onProgress: ProgressCallback = async ({ progress }) => {
-      const lastProgress = getProgress(session)
-      if (lastProgress.state === 'finished') return
-      try {
-        await commitSession(setProgress(session, { progress }))
-      } catch (err) {}
-    }
-
-    (async () => {
-      try {
-        const { mediaAsset } = await importVideoFromUrl(collection, url, { onProgress })
-        await commitSession(setProgress(session, {
-          created: mediaAsset,
-          progress: 1,
-          state: 'finished'
-        }))
-      } catch (err) {
-        await commitSession(setProgress(session, { state: 'finished', error: (err as Error).message }))
-      }
-    })()
-
-    setProgress(session, { progress: 0, error: null, state: 'running' })
-    return await withSession(session, json({ running: true }))
-  } catch (err) {
-    throw err
+  if (!url) {
+    throw json({ error: 'URL is required', field: 'url' }, { status: 400 })
   }
+
+  const onProgress: ProgressCallback = async ({ progress }) => {
+    const lastProgress = getProgress(session)
+    if (lastProgress.state === 'finished') return
+    try {
+      await commitSession(setProgress(session, { progress }))
+    } catch (err) {}
+  }
+
+  (async () => {
+    try {
+      const { mediaAsset } = await importVideoFromUrl(collection, url, { onProgress })
+      await commitSession(setProgress(session, {
+        created: mediaAsset,
+        progress: 1,
+        state: 'finished'
+      }))
+    } catch (err) {
+      await commitSession(setProgress(session, { state: 'finished', error: (err as Error).message }))
+    }
+  })()
+
+  setProgress(session, { progress: 0, error: null, state: 'running' })
+  return await withSession(session, json({ running: true }))
 }
 
 export default function ImportPage () {

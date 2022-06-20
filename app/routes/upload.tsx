@@ -1,14 +1,10 @@
 import type { ActionFunction } from '@remix-run/node'
 import {
-  json,
-  LoaderFunction,
   redirect,
-  unstable_composeUploadHandlers,
-  unstable_createMemoryUploadHandler,
-  unstable_parseMultipartFormData,
+  // eslint-disable-next-line
+  unstable_composeUploadHandlers, unstable_createMemoryUploadHandler, unstable_parseMultipartFormData,
   writeAsyncIterableToWritable
 } from '@remix-run/node'
-import { Form, Link, useActionData, useLoaderData } from '@remix-run/react'
 import { PassThrough } from 'stream'
 import { importVideoFromStream } from '~/lib/files.server'
 import { openCollection } from '~/lib/sonar.server'
@@ -19,7 +15,7 @@ export const action: ActionFunction = async ({ request }) => {
     async ({ name, contentType, data, filename }) => {
       if (name !== 'file') return null
       const uploadStream = new PassThrough()
-      const [{ file, mediaAsset }] = await Promise.all([
+      const [{ mediaAsset }] = await Promise.all([
         importVideoFromStream(collection, uploadStream, filename, contentType),
         writeAsyncIterableToWritable(data, uploadStream)
       ])
