@@ -1,12 +1,13 @@
-import { ActionFunction, json, LoaderFunction, Session } from "@remix-run/node";
-import { useActionData, useCatch, useFetcher, useLoaderData } from "@remix-run/react";
-import {Layout} from "~/comps/layout";
-import {importVideoFromUrl} from "~/lib/youtube.server";
-import { openCollection } from "../sonar.server";
+import type { ActionFunction, LoaderFunction, Session } from '@remix-run/node'
+import { json } from '@remix-run/node'
+import { useActionData, useCatch, useFetcher, useLoaderData } from '@remix-run/react'
+import { Layout } from '~/comps/layout'
+import { importVideoFromUrl } from '~/lib/youtube.server'
+import { openCollection } from '../sonar.server'
 import { getSessionFromRequest, commitSession, withSession } from '~/sessions'
-import {useEffect} from "react";
-import {ProgressBar} from "~/comps/progress-bar";
-import {Link} from "react-router-dom";
+import { useEffect } from 'react'
+import { ProgressBar } from '~/comps/progress-bar'
+import { Link } from 'react-router-dom'
 
 type ProgressCallback = (arg0: { progress: number }) => void;
 
@@ -26,7 +27,7 @@ type Progress= {
   error?: string | null;
 }
 
-export const loader: LoaderFunction = async({ request }) => {
+export const loader: LoaderFunction = async ({ request }) => {
   const session = await getSessionFromRequest(request)
   const progress = getProgress(session)
   return withSession(session, json({
@@ -34,26 +35,25 @@ export const loader: LoaderFunction = async({ request }) => {
   }))
 }
 
-function setProgress(session: Session, input: Progress) {
+function setProgress (session: Session, input: Progress) {
   const lastInput = (session.get('progress') || {}) as Progress
   const nextInput = { ...lastInput, ...input }
   session.set('progress', nextInput)
   return session
 }
-function getProgress(session: Session): Progress {
+function getProgress (session: Session): Progress {
   return session.get('progress') || {}
 }
-
 
 export const action: ActionFunction = async ({ request }): Promise<Response> => {
   const session = await getSessionFromRequest(request)
   try {
-    const form = await request.formData();
-    const url = form.get("url") as string;
+    const form = await request.formData()
+    const url = form.get('url') as string
     const collection = await openCollection()
 
     if (!url) {
-      throw json({ error: "URL is required", field: "url" }, { status: 400 })
+      throw json({ error: 'URL is required', field: 'url' }, { status: 400 })
     }
 
     const onProgress: ProgressCallback = async ({ progress }) => {
@@ -82,18 +82,18 @@ export const action: ActionFunction = async ({ request }): Promise<Response> => 
   } catch (err) {
     throw err
   }
-};
+}
 
-export default function ImportPage() {
-  const actionData = useActionData<ActionData | undefined>();
-  const loaderData = useLoaderData<LoaderData | undefined>();
+export default function ImportPage () {
+  const actionData = useActionData<ActionData | undefined>()
+  const loaderData = useLoaderData<LoaderData | undefined>()
   const fetcher = useFetcher()
 
   const progressData = { ...(loaderData?.progress || {}), ...(fetcher.data?.progress || {}) }
 
   useEffect(() => {
     if (progressData.state !== 'running' && !actionData?.running) return
-    let interval = setInterval(() => {
+    const interval = setInterval(() => {
       if (fetcher.state !== 'idle') return
       if (progressData.state === 'finished') return
       fetcher.load('/import')
@@ -122,7 +122,7 @@ export default function ImportPage() {
           <strong>Error!</strong> {String(progressData.error)}
         </div>
       )}
-      
+
       <form method="post">
         <h2>Import from YouTube</h2>
         <fieldset disabled={progressData.state === 'running'}>
@@ -146,12 +146,12 @@ export default function ImportPage() {
         </fieldset>
       </form>
     </Layout>
-  );
+  )
 }
 
-export function CatchBoundary() {
+export function CatchBoundary () {
   // this returns { status, statusText, data }
-  const caught = useCatch();
+  const caught = useCatch()
 
   switch (caught.status) {
     case 400:
@@ -163,13 +163,13 @@ export function CatchBoundary() {
           </p>
           <ImportPage />
         </div>
-      );
+      )
   }
 
   return (
     <div>
-      Something went wrong: {caught.status}{" "}
+      Something went wrong: {caught.status}{' '}
       {caught.statusText}
     </div>
-  );
+  )
 }

@@ -1,30 +1,31 @@
-import { ActionFunction, json, LoaderFunction } from "@remix-run/node";
-import { Form, useLoaderData } from "@remix-run/react";
-import {Layout} from "~/comps/layout";
-import {openCollection} from "~/sonar.server";
+import type { ActionFunction, LoaderFunction } from '@remix-run/node'
+import { json } from '@remix-run/node'
+import { Form, useLoaderData } from '@remix-run/react'
+import { Layout } from '~/comps/layout'
+import { openCollection } from '~/sonar.server'
 import prettyBytes from 'readable-bytes'
 
 export const loader: LoaderFunction = async (): Promise<Response> => {
   // const session = await getSessionFromRequest(request)
-    const collection: any = await openCollection()
+  const collection: any = await openCollection()
   return json({ collection: collection.info })
 }
 
 export const action: ActionFunction = async ({ request }): Promise<Response> => {
-    const collection = await openCollection()
-    const form = await request.formData();
-    const key = form.get("key") as string;
-    if (key) {
-        await collection.putFeed(key)
-    }
-    return json({})
+  const collection = await openCollection()
+  const form = await request.formData()
+  const key = form.get('key') as string
+  if (key) {
+    await collection.putFeed(key)
+  }
+  return json({})
 }
 
 export default function FeedsPage () {
-    const data = useLoaderData()
-    console.log(data)
-    const feeds = data.collection.feeds
-    return (
+  const data = useLoaderData()
+  console.log(data)
+  const feeds = data.collection.feeds
+  return (
         <Layout>
           <h1>Manage collection</h1>
       <div data-c-key>
@@ -39,11 +40,11 @@ export default function FeedsPage () {
             <Feed feed={feed} key={feed.key} />
           ))}
         </Layout>
-    )
+  )
 }
 
 function Feed ({ feed }: { feed: any }) {
-    return (
+  return (
         <div data-c-feed>
             <h3>{feed.alias} {feed.key}</h3>
             <div>
@@ -52,5 +53,5 @@ function Feed ({ feed }: { feed: any }) {
             </div>
             <div>Size: <strong>{prettyBytes(feed.byteLength)}</strong> ({feed.length} blocks)</div>
         </div>
-    )
+  )
 }

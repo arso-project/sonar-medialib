@@ -1,7 +1,8 @@
-import { json, LoaderFunction } from "@remix-run/node";
-import { Form, Link, useLoaderData } from "@remix-run/react";
-import {Layout} from "~/comps/layout";
-import { openCollection } from "../../sonar.server";
+import type { LoaderFunction } from '@remix-run/node'
+import { json } from '@remix-run/node'
+import { Form, Link, useLoaderData } from '@remix-run/react'
+import { Layout } from '~/comps/layout'
+import { openCollection } from '../../sonar.server'
 
 export const loader: LoaderFunction = async ({ request, params }) => {
   const collection = await openCollection()
@@ -10,7 +11,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     id: params.id
   })
   const mediaRecord = records[0]
-  if (!mediaRecord) throw json("not found", { status: 404 })
+  if (!mediaRecord) throw json('not found', { status: 404 })
   let importedMetadata
   if (mediaRecord.value.importedMetadata) {
     const importedMetadataRecords = await collection.get({
@@ -22,7 +23,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
   return json({ mediaRecord, importedMetadata })
 }
 
-export default function Page() {
+export default function Page () {
   const data = useLoaderData<any>()
   const records = [data.mediaRecord, data.importedMetadata].filter(x => x)
   // const { records } = data as { info: any, records: Array<any> }
@@ -40,5 +41,5 @@ export default function Page() {
         ))}
       </div>
     </Layout>
-  );
+  )
 }

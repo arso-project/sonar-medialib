@@ -1,6 +1,6 @@
-import { Link, NavLink } from "@remix-run/react";
+import { Link, NavLink } from '@remix-run/react'
 
-export function Navigation() {
+export function Navigation () {
   return (
     <nav data-c-navigation>
       <ul>

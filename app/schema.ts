@@ -36,7 +36,7 @@ export const schema: Spec = {
           type: 'string'
         },
         file: {
-          type: 'relation',
+          type: 'relation'
         },
         importedMetadata: {
           type: 'relation'

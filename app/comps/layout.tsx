@@ -1,4 +1,4 @@
-import {Navigation} from "./navigation";
+import { Navigation } from './navigation'
 
 export function Layout ({
   children
@@ -16,5 +16,3 @@ export function Layout ({
     </div>
   )
 }
-
-

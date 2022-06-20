@@ -1,7 +1,8 @@
-import { json, LoaderFunction } from "@remix-run/node";
-import { Form, Link, useLoaderData } from "@remix-run/react";
-import {Layout} from "~/comps/layout";
-import { openCollection } from "../sonar.server";
+import type { LoaderFunction } from '@remix-run/node'
+import { json } from '@remix-run/node'
+import { Form, Link, useLoaderData } from '@remix-run/react'
+import { Layout } from '~/comps/layout'
+import { openCollection } from '../sonar.server'
 
 export const loader: LoaderFunction = async ({ request }) => {
   const collection = await openCollection()
@@ -16,7 +17,7 @@ export const loader: LoaderFunction = async ({ request }) => {
   return json({ records, info })
 }
 
-export default function Index() {
+export default function Index () {
   const data = useLoaderData<any>()
   const { info, records } = data as { info: any, records: Array<any> }
   console.log(records)
@@ -45,10 +46,10 @@ export default function Index() {
         ))}
       </div>
     </Layout>
-  );
+  )
 }
 
-function formatDuration(seconds: number): string {
+function formatDuration (seconds: number): string {
   const date = new Date(0)
   date.setSeconds(seconds)
   const timeString = date.toISOString().substr(11, 8)

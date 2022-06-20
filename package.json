@@ -11,7 +11,9 @@
     "sonar": "sonar start -s ./data/media1 --disable-authentication",
     "second:sonar": "sonar start -p 9192 -s ./data/media2 --disable-authentication",
     "second:dev": "PORT=3002 SONAR_COLLECTION=media2 SONAR_URL='http://localhost:9192/api/v1/default' yarn dev",
-    "electron": "cd electron && yarn start"
+    "electron": "cd electron && yarn start",
+    "lint": "eslint app",
+    "lint:fix": "eslint app --fix"
   },
   "dependencies": {
     "@arsonar/client": "0.6.0-alpha.5",
@@ -33,7 +35,12 @@
     "@remix-run/eslint-config": "^1.4.3",
     "@types/react": "^17",
     "@types/react-dom": "^17",
-    "eslint": "^8.11.0"
+    "@typescript-eslint/parser": "^5.28.0",
+    "eslint": "^8.11.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-n": "^15.2.3",
+    "eslint-plugin-promise": "^6.0.0",
+    "typescript": "^4.7.4"
   },
   "engines": {
     "node": ">=14"

@@ -1,9 +1,10 @@
-import { json, LoaderFunction } from "@remix-run/node";
-import { Link, useLoaderData } from "@remix-run/react";
-import {Layout} from "~/comps/layout";
-import { openCollection } from "../sonar.server";
+import type { LoaderFunction } from '@remix-run/node'
+import { json } from '@remix-run/node'
+import { Link, useLoaderData } from '@remix-run/react'
+import { Layout } from '~/comps/layout'
+import { openCollection } from '../sonar.server'
 import { getSessionFromRequest } from '~/sessions'
-import {MediaAsset} from "~/comps/media-asset";
+import { MediaAsset } from '~/comps/media-asset'
 
 export const loader: LoaderFunction = async ({ request }): Promise<Response> => {
   // const session = await getSessionFromRequest(request)
@@ -29,7 +30,7 @@ export const loader: LoaderFunction = async ({ request }): Promise<Response> => 
   }
 }
 
-export default function Index() {
+export default function Index () {
   const data = useLoaderData<any>()
   const { info, records } = data as { info: any, records: Array<any> }
   records.sort((a, b) => a.timestamp > b.timestamp ? -1 : 1)
@@ -46,5 +47,5 @@ export default function Index() {
         ))}
       </div>
     </Layout>
-  );
+  )
 }

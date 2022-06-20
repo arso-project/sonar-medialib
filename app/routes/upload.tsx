@@ -1,5 +1,5 @@
 import type { ActionFunction } from '@remix-run/node'
-import { openCollection } from "~/sonar.server";
+import { openCollection } from '~/sonar.server'
 import {
   json,
   LoaderFunction,
@@ -7,10 +7,10 @@ import {
   unstable_composeUploadHandlers,
   unstable_createMemoryUploadHandler,
   unstable_parseMultipartFormData,
-  writeAsyncIterableToWritable,
+  writeAsyncIterableToWritable
 } from '@remix-run/node'
 import { Form, Link, useActionData, useLoaderData } from '@remix-run/react'
-import {importVideoFromStream} from "~/lib/youtube.server";
+import { importVideoFromStream } from '~/lib/youtube.server'
 import { PassThrough } from 'stream'
 
 export const action: ActionFunction = async ({ request }) => {
@@ -21,7 +21,7 @@ export const action: ActionFunction = async ({ request }) => {
       const uploadStream = new PassThrough()
       const [{ file, mediaAsset }] = await Promise.all([
         importVideoFromStream(collection, uploadStream, filename, contentType),
-        writeAsyncIterableToWritable(data, uploadStream),
+        writeAsyncIterableToWritable(data, uploadStream)
       ])
       return mediaAsset.id
     },

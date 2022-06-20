@@ -1,32 +1,31 @@
-import type { MetaFunction } from "@remix-run/node";
-import { json, LinksFunction, LoaderFunction } from "@remix-run/node";
-import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, useCatch } from "@remix-run/react";
+import type { MetaFunction, LinksFunction, LoaderFunction } from '@remix-run/node'
+import { json } from '@remix-run/node'
+import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, useCatch } from '@remix-run/react'
 
 // @ts-ignore
-import globalStylesUrl from "./styles/global.css";
+import globalStylesUrl from './styles/global.css'
 // import globalMediumStylesUrl from "./styles/global-medium.css";
 // import globalLargeStylesUrl from "./styles/global-large.css";
 
-
 export const meta: MetaFunction = () => {
-  let description = `A p2p wiki`;
+  const description = 'A p2p wiki'
   return {
-    title: "ArsoWiki",
-    viewport: "width=device-width,initial-scale=1",
+    title: 'ArsoWiki',
+    viewport: 'width=device-width,initial-scale=1',
     description,
-    keywords: "Remix,jokes",
+    keywords: 'Remix,jokes',
     // "twitter:image": "https://remix-jokes.lol/social.png",
-    "twitter:card": "summary_large_image",
-    "twitter:creator": "@remix_run",
-    "twitter:site": "@remix_run",
+    'twitter:card': 'summary_large_image',
+    'twitter:creator': '@remix_run',
+    'twitter:site': '@remix_run',
     // "twitter:title": "Remix Jokes",
-    "twitter:description": description,
-  };
-};
+    'twitter:description': description
+  }
+}
 
-export let links: LinksFunction = () => {
+export const links: LinksFunction = () => {
   return [
-    { rel: "stylesheet", href: globalStylesUrl },
+    { rel: 'stylesheet', href: globalStylesUrl }
     // {
     //   rel: "stylesheet",
     //   href: globalMediumStylesUrl,
@@ -37,15 +36,15 @@ export let links: LinksFunction = () => {
     //   href: globalLargeStylesUrl,
     //   media: "screen and (min-width: 1024px)",
     // },
-  ];
-};
+  ]
+}
 export const loader: LoaderFunction = async () => {
   return json({})
 }
 
-function Document({
+function Document ({
   children,
-  title,
+  title
 }: {
   children: React.ReactNode;
   title?: string;
@@ -61,23 +60,23 @@ function Document({
       <body>
         {children}
         <Scripts />
-        {process.env.NODE_ENV === "development" && <LiveReload />}
+        {process.env.NODE_ENV === 'development' && <LiveReload />}
       </body>
     </html>
-  );
+  )
 }
 
-export default function App() {
+export default function App () {
   return (
     <Document title="Sonar Medialib">
       <Outlet />
       <ScrollRestoration />
     </Document>
-  );
+  )
 }
 
-export function CatchBoundary() {
-  let caught = useCatch();
+export function CatchBoundary () {
+  const caught = useCatch()
   const title = `${caught.status} ${caught.statusText}`
   return (
     <Document title={title}>
@@ -87,11 +86,11 @@ export function CatchBoundary() {
         </h1>
       </div>
     </Document>
-  );
+  )
 }
 
-export function ErrorBoundary({ error }: { error: Error }) {
-  console.error(error);
+export function ErrorBoundary ({ error }: { error: Error }) {
+  console.error(error)
 
   return (
     <Document title="Uh-oh!">
@@ -100,5 +99,5 @@ export function ErrorBoundary({ error }: { error: Error }) {
         <pre>{error.message}</pre>
       </div>
     </Document>
-  );
+  )
 }

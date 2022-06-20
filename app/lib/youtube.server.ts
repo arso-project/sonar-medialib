@@ -49,7 +49,7 @@ export async function importVideoFromUrl (collection: Collection, url: string, {
       file: file.id,
       importedMetadata: importedMetadataRecord.id,
       originalUrl: url,
-      duration: details.lengthSeconds,
+      duration: details.lengthSeconds
     }
     const mediaAsset = await collection.put({
       type: 'MediaAsset',
@@ -67,30 +67,30 @@ interface UploadFileProps {
   filename: string | undefined
 }
 
-export async function importVideoFromStream(collection: Collection, data: AsyncIterable<Uint8Array>, filename?: string, contentType?: string){
-    const file = await collection.files.createFile(data, {
-      filename,
-      contentType
-    })
-    const info = await ffprobeFile(collection, file.id)
-    const stream = info.streams[0]
-    const mediaAssetValue = {
-      title: info.format?.tags?.title,
-      file: file.id,
-      ffprobeInfo: info,
-      duration: stream?.duration
-      // importedMetadata: importedMetadataRecord.id,
-      // originalUrl: url,
-      // description: details.description,
-    }
-    const mediaAsset = await collection.put({
-      type: 'MediaAsset',
-      value: mediaAssetValue
-    })
-    return { file, mediaAsset }
+export async function importVideoFromStream (collection: Collection, data: AsyncIterable<Uint8Array>, filename?: string, contentType?: string) {
+  const file = await collection.files.createFile(data, {
+    filename,
+    contentType
+  })
+  const info = await ffprobeFile(collection, file.id)
+  const stream = info.streams[0]
+  const mediaAssetValue = {
+    title: info.format?.tags?.title,
+    file: file.id,
+    ffprobeInfo: info,
+    duration: stream?.duration
+    // importedMetadata: importedMetadataRecord.id,
+    // originalUrl: url,
+    // description: details.description,
+  }
+  const mediaAsset = await collection.put({
+    type: 'MediaAsset',
+    value: mediaAssetValue
+  })
+  return { file, mediaAsset }
 }
 
-export async function ffprobeFile(collection: Collection, id: string): Promise<any> {
+export async function ffprobeFile (collection: Collection, id: string): Promise<any> {
   const body = await collection.files.readFile(id)
   const stream = Readable.from(body)
 
@@ -129,17 +129,17 @@ export async function ffprobeStream (stream: Readable) {
   return info
 }
 
-export async function uploadFileToSonar({
+export async function uploadFileToSonar ({
   contentType,
   data,
-  filename,
+  filename
 }: UploadFileProps) {
   const collection = await openCollection()
   let fileRecord
   try {
     fileRecord = await collection.files.createFile(data, {
       filename,
-      contentType,
+      contentType
     })
   } catch (err: any) {
     return { error: err }

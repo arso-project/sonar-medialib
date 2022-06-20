@@ -1,5 +1,5 @@
-import { LoaderFunction } from "@remix-run/node";
-import { Link, useLoaderData } from "@remix-run/react";
+import { LoaderFunction } from '@remix-run/node'
+import { Link, useLoaderData } from '@remix-run/react'
 
 export function MediaAsset (props: any) {
   const { record } = props
@@ -26,7 +26,7 @@ export function MediaAsset (props: any) {
   )
 }
 
-function formatDuration(seconds: number): string {
+function formatDuration (seconds: number): string {
   const date = new Date(0)
   date.setSeconds(seconds)
   const timeString = date.toISOString().substr(11, 8)
