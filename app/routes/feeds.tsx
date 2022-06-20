@@ -2,7 +2,7 @@ import type { ActionFunction, LoaderFunction } from '@remix-run/node'
 import { json } from '@remix-run/node'
 import { Form, useLoaderData } from '@remix-run/react'
 import { Layout } from '~/comps/layout'
-import { openCollection } from '~/sonar.server'
+import { openCollection } from '~/lib/sonar.server'
 import prettyBytes from 'readable-bytes'
 
 export const loader: LoaderFunction = async (): Promise<Response> => {

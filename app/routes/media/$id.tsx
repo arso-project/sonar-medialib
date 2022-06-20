@@ -3,8 +3,8 @@ import { json } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
 import { Layout } from '~/comps/layout'
 import { MediaAsset } from '~/comps/media-asset'
-import { ffprobeFile } from '~/lib/youtube.server'
-import { openCollection } from '~/sonar.server'
+import { ffprobeFile } from '~/lib/files.server'
+import { openCollection } from '~/lib/sonar.server'
 
 export const loader: LoaderFunction = async ({ request, params }) => {
   const collection = await openCollection()

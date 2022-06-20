@@ -5,7 +5,7 @@ import { Readable, pipeline } from 'node:stream'
 import { spawn } from 'node:child_process'
 import ffprobeStatic from 'ffprobe-static'
 import type { Collection } from '@arsonar/client'
-import { openCollection } from '../sonar.server.js'
+import { openCollection } from '~/lib/sonar.server'
 
 export type YoutubeImportOpts = {
   onProgress: (progress: { progress: number, downloaded?: number, total?: number }) => void | Promise<void>

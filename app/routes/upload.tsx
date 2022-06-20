@@ -1,5 +1,4 @@
 import type { ActionFunction } from '@remix-run/node'
-import { openCollection } from '~/sonar.server'
 import {
   json,
   LoaderFunction,
@@ -10,8 +9,9 @@ import {
   writeAsyncIterableToWritable
 } from '@remix-run/node'
 import { Form, Link, useActionData, useLoaderData } from '@remix-run/react'
-import { importVideoFromStream } from '~/lib/youtube.server'
 import { PassThrough } from 'stream'
+import { importVideoFromStream } from '~/lib/files.server'
+import { openCollection } from '~/lib/sonar.server'
 
 export const action: ActionFunction = async ({ request }) => {
   const collection = await openCollection()
