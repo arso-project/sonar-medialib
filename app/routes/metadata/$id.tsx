@@ -11,18 +11,20 @@ export const loader: LoaderFunction = async ({ request, params }) => {
   })
   const mediaRecord = records[0]
   if (!mediaRecord) throw json("not found", { status: 404 })
-  const importedMetadataRecords = await collection.get({
-    type: 'sonar-medialib/ImportedMetadata',
-    id: mediaRecord.value.importedMetadata
-  })
-  const importedMetadata = importedMetadataRecords[0]
+  let importedMetadata
+  if (mediaRecord.value.importedMetadata) {
+    const importedMetadataRecords = await collection.get({
+      type: 'sonar-medialib/ImportedMetadata',
+      id: mediaRecord.value.importedMetadata
+    })
+    importedMetadata = importedMetadataRecords[0]
+  }
   return json({ mediaRecord, importedMetadata })
 }
 
 export default function Page() {
   const data = useLoaderData<any>()
-  console.log(data)
-  const records = [data.mediaRecord, data.importedMetadata]
+  const records = [data.mediaRecord, data.importedMetadata].filter(x => x)
   // const { records } = data as { info: any, records: Array<any> }
   return (
     <Layout>

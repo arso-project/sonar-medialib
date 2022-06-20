@@ -286,3 +286,10 @@ button {
   /*   padding: 1rem; */
   /* } */
 }
+
+[data-c-search-item] {
+  --border-color: var(--color-main1-fade1);
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+}

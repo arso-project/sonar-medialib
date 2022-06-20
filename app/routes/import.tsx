@@ -1,7 +1,7 @@
 import { ActionFunction, json, LoaderFunction, Session } from "@remix-run/node";
 import { useActionData, useCatch, useFetcher, useLoaderData } from "@remix-run/react";
 import {Layout} from "~/comps/layout";
-import {importVideoFromUrl} from "~/lib/youtube";
+import {importVideoFromUrl} from "~/lib/youtube.server";
 import { openCollection } from "../sonar.server";
 import { getSessionFromRequest, commitSession, withSession } from '~/sessions'
 import {useEffect} from "react";
@@ -124,12 +124,24 @@ export default function ImportPage() {
       )}
       
       <form method="post">
+        <h2>Import from YouTube</h2>
         <fieldset disabled={progressData.state === 'running'}>
           <label>
-            <input placeholder='URL to import' type="text" name="url" />
+            <input placeholder='Paste YouTube URL' type="text" name="url" />
           </label>
           <button type="submit" className="button">
-            Submit
+            Import
+          </button>
+        </fieldset>
+      </form>
+      <form method="post" action="/upload" encType='multipart/form-data'>
+        <h2>Upload file</h2>
+        <fieldset disabled={progressData.state === 'running'}>
+          <label>
+            <input placeholder='Select file' type="file" name="file" />
+          </label>
+          <button type="submit" className="button">
+            Upload
           </button>
         </fieldset>
       </form>

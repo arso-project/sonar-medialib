@@ -26,13 +26,18 @@ export default function FeedsPage () {
     const feeds = data.collection.feeds
     return (
         <Layout>
+          <h1>Manage collection</h1>
+      <div data-c-key>
+      Collection primary key:<br /><code>{data.collection.key}</code>
+      </div>
+        <h3>Feeds</h3>
         <Form method='post'>
-            <input name='key' placeholder='Key...' />
+            <input name='key' placeholder='Paste key...' />
             <button type='submit'>Add feed</button>
         </Form>
-        {feeds.map((feed: any) => (
-                <Feed feed={feed} key={feed.key} />
-            ))}
+          {feeds.map((feed: any) => (
+            <Feed feed={feed} key={feed.key} />
+          ))}
         </Layout>
     )
 }

@@ -11,13 +11,15 @@ export const loader: LoaderFunction = async ({ request }) => {
   if (!query) {
     return ({ records: [], info })
   }
-  const records = await collection.query('search', query)
+  const searchResults = await collection.query('search', query)
+  const records = searchResults.filter(r => r.hasType('MediaAsset'))
   return json({ records, info })
 }
 
 export default function Index() {
   const data = useLoaderData<any>()
   const { info, records } = data as { info: any, records: Array<any> }
+  console.log(records)
   return (
     <Layout>
       <Form>
@@ -26,15 +28,19 @@ export default function Index() {
       </Form>
       <div>
         {records.map((record: any, i: number) => (
-          <div key={i}>
+          <div key={i} data-c-search-item>
             <Link to={'/media/' + record.id}>
               <h2>{record.value.title || record.id}</h2>
             </Link>
             {record.value.duration && (
               <p>Duration: {formatDuration(record.value.duration)}</p>
             )}
-            <video controls src={'/file/' + record.value.file} />
-            <DateFormatter date={record.timestamp} />
+            {record.value.file && (
+              <video controls src={'/file/' + record.value.file} />
+            )}
+            <div>
+              <DateFormatter date={record.timestamp} />
+            </div>
           </div>
         ))}
       </div>
