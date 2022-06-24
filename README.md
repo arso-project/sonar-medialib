@@ -11,3 +11,11 @@ yarn
 yarn start
 # now open http://localhost:3000 in a web browser
 ```
+
+### Development
+
+Run `yarn dev` to start Sonar and also run the Remix server in development mode. 
+
+### Electron
+
+The app includes an Electron shell to run in Desktop mode. Run `yarn electron` to start the Electron app.
